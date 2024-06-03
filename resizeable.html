@@ -20,6 +20,10 @@ p.addEventListener('click', function init() {
     resizer.className = 'resizer';
     p.appendChild(resizer);
     resizer.addEventListener('mousedown', initDrag, false);
+	resizer.onmousedown = function() { 
+	  event.preventDefault();
+	  console.log("mousedown");
+	}
 }, false);
 
 var startX, startY, startWidth, startHeight;
@@ -32,18 +36,25 @@ function initDrag(e) {
    document.documentElement.addEventListener('mousemove', doDrag, false);
    document.documentElement.addEventListener('mouseup', stopDrag, false);
 }
-
 function doDrag(e) {
-   p.style.width = (startWidth + e.clientX - startX) + 'px';
-   p.style.height = (startHeight + e.clientY - startY) + 'px';
+   //console.log(p.style.width);
+   p.style.width = e.clientX + 'px';
+   //p.style.height = (startHeight + e.clientY - startY) + 'px';
 }
 
 function stopDrag(e) {
-    document.documentElement.removeEventListener('mousemove', doDrag, false);    document.documentElement.removeEventListener('mouseup', stopDrag, false);
+	document.documentElement.removeEventListener('mousemove', doDrag, false);
+	document.documentElement.removeEventListener('mouseup', stopDrag, false);
 }
+
+
+/*document.body.onmouseup = function() {
+  console.log("mouseup");
+  stopDrag();
+}*/
 </script>
 <style>
 p { background: lime; height: 200px; width: 300px; }
 p.resizable { background: cyan; position: relative; }
-p .resizer { width: 10px; height: 10px; background: blue; position:absolute; right: 0; bottom: 0; cursor: se-resize; }
+p .resizer { width: 10px; height: 10px; background: blue; position:absolute; right: 0; bottom: 0;  }
 </style>
